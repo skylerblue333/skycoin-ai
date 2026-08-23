@@ -1,44 +1,40 @@
-<!-- PORTFOLIO PROJECT PROFILE: maintained by the repository owner -->
+# skycoin-ai
 
-## Project profile and code-audit snapshot
+AI and automation component for the SKYCOIN4444 ecosystem.
 
-**What this is:** **skycoin-ai** is a public repository described as: “AI & Automation - LLM integration, code generation #SkyCoin4444 #AI #Blockchain #DevOps #Innovation” Its dominant language signals are **TypeScript (8 files)**.
+## Current repository evidence
 
-**Why it has value:** Its value is best understood through the implementation evidence currently present in the repository: **27 tracked files** were observed in the shallow audit, with the source structure and existing documentation providing the project’s specific context. This README does not treat a prototype, experiment, or archive as a production system without supporting evidence.
+- Public TypeScript repository on `main`.
+- 27 tracked files were observed in the current audit snapshot.
+- `package.json`, Docker configuration, Docker Compose configuration, and GitHub Actions CI configuration are present.
+- No test-related file was identified by the current filename-based audit.
 
-**Implementation evidence:** No test-related file was detected by filename heuristics.; 1 dependency or package manifest(s) detected; 3 build/CI/infrastructure signal(s) detected; and 3 documentation or governance file(s) detected. Test filenames observed include none detected. Dependency or package files include `package.json`. Build, CI, or infrastructure signals include `Dockerfile`, `docker-compose.yml`, `.github/workflows/ci.yml`.
+## Ecosystem role
 
-**Current status:** The repository is tracked on the `main` branch. The existing source tree, configuration, tests, workflows, and documentation remain authoritative for supported behavior and maturity. A code audit is not a production-readiness certification, and the presence of a test or workflow file does not establish that all checks pass.
+**HopeAI → AI / Automation / Model Integration**
 
-**Relationship to the wider portfolio:** This repository is one focused component of the broader Skyler Blue Spillers portfolio across AI, software engineering, cloud and DevOps, cybersecurity, blockchain, finance, education, social systems, and creative work. It may provide a service boundary, implementation pattern, experiment, archive, or reusable idea for related repositories. Treat repositories as technical dependencies only where documented interfaces and verified project requirements support that relationship.
+This repository is a candidate source for AI orchestration, automation, and model-integration capabilities. Its useful implementation should be compared with the other HopeAI/AI repositories before anything is duplicated in the canonical platform.
 
-**Quality and security note:** No obvious secret-like pattern was detected by the limited static scan; this is not a substitute for a security audit. No TODO/FIXME marker was detected in the scanned text files.
+## Truthful status
 
----
+- Source/configuration: **present**
+- Canonical HopeAI integration: **pending implementation comparison**
+- Automated tests: **not established by the current repository evidence**
+- Production deployment: **not verified**
+- Live AI/model integrations: **not claimed**
 
-# Skycoin Ai
+The current `package.json` describes the module as production-grade, but its `build` script suppresses TypeScript failure and its `test` and `lint` scripts only print success messages. Those scripts are not treated as evidence of successful validation. fileciteturn145file0
 
-![GitHub stars](https://img.shields.io/github/stars/skylerblue333/skycoin-ai?style=flat-square)
-![GitHub license](https://img.shields.io/github/license/skylerblue333/skycoin-ai?style=flat-square)
+## Consolidation approach
 
-## 🌟 Overview
-**skycoin-ai** is a professional-grade project within the **SkyCoin4444** ecosystem. It focuses on delivering high-value solutions in the domain of **TypeScript**.
+Preserve the existing AI source, configuration, documentation, and history. Compare this implementation against HopeAI and other AI repositories in the SKYCOIN4444 portfolio. Promote the strongest verified behavior into the canonical HopeAI boundary rather than maintaining duplicate AI services.
 
-## 🚀 Key Features
-- **Scalable Architecture**: Designed for enterprise-level growth and performance.
-- **Modern Standards**: Implements best practices for clean code and maintainability.
-- **Robust Integration**: Built to work seamlessly within modern cloud-native environments.
+If a genuine capability is missing, evaluate mature public open-source AI frameworks or infrastructure before implementing it from scratch. Check license compatibility, preserve attribution, and isolate external dependencies behind stable adapters.
 
-## 🛠️ Technology Stack
-- **Primary Domain**: TypeScript
-- **Ecosystem**: SkyCoin4444 Digital Platform
+## Production requirements
 
-## 📂 Structure
-The project is organized into a modular structure to ensure clarity and ease of development.
+Before production promotion, establish real tests, strict TypeScript/build validation, model/provider configuration, authentication and authorization boundaries, secret management, input/output safety controls, observability, cost/rate controls, reproducible CI, and an end-to-end deployment test.
 
-## 👨‍💻 Author
-**Skyler Blue Spillers**
-*Professional Chess Player & Software Engineer*
+## License
 
----
-*Powered by SkyCoin4444*
+MIT, subject to the checked-in license and applicable third-party dependency licenses.
