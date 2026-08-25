@@ -5,7 +5,6 @@ export interface RouteRequest {
   capability: Capability;
   complexity: Complexity;
   promptChars: number;
-  latencyPreference?: 'low' | 'balanced' | 'quality';
 }
 
 export interface ProviderProfile {
@@ -13,12 +12,14 @@ export interface ProviderProfile {
   capabilities: readonly Capability[];
   maxPromptChars: number;
   enabled: boolean;
+  /** Lower values are preferred. */
   priority: number;
 }
 
 export interface RouteDecision {
   providerId: string;
   capability: Capability;
+  complexity: Complexity;
   reason: string;
 }
 
@@ -59,11 +60,11 @@ export class AiRoutingPolicy {
   }
 
   remove(id: string): boolean {
-    return this.providers.delete(id);
+    return this.providers.delete(id.trim());
   }
 
   get(id: string): ProviderProfile | undefined {
-    const profile = this.providers.get(id);
+    const profile = this.providers.get(id.trim());
     return profile ? { ...profile, capabilities: [...profile.capabilities] } : undefined;
   }
 
@@ -75,24 +76,19 @@ export class AiRoutingPolicy {
 
   route(request: RouteRequest): RouteDecision | null {
     validateRequest(request);
-    const candidates = this.list().filter(
+    const selected = this.list().find(
       (profile) =>
         profile.enabled &&
         profile.maxPromptChars >= request.promptChars &&
         profile.capabilities.includes(request.capability),
     );
-    if (candidates.length === 0) return null;
+    if (!selected) return null;
 
-    const ordered = candidates.sort((a, b) => {
-      const preference = request.latencyPreference ?? 'balanced';
-      if (preference === 'quality' && request.complexity === 'high') return b.priority - a.priority || a.id.localeCompare(b.id);
-      return a.priority - b.priority || a.id.localeCompare(b.id);
-    });
-    const selected = ordered[0];
     return {
       providerId: selected.id,
       capability: request.capability,
-      reason: `selected enabled provider supporting ${request.capability} within prompt limit`,
+      complexity: request.complexity,
+      reason: `selected lowest-priority-rank enabled provider supporting ${request.capability} within prompt limit`,
     };
   }
 }
