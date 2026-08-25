@@ -18,6 +18,14 @@ test('routes to lowest-ranked enabled provider that satisfies capability and pro
   );
 });
 
+test('ties are resolved by locale-independent UTF-16 code-unit ordering', () => {
+  const policy = new AiRoutingPolicy();
+  policy.register({ id: 'ä-provider', capabilities: ['general'], maxPromptChars: 100, enabled: true, priority: 1 });
+  policy.register({ id: 'z-provider', capabilities: ['general'], maxPromptChars: 100, enabled: true, priority: 1 });
+  assert.deepEqual(policy.list().map((provider) => provider.id), ['z-provider', 'ä-provider']);
+  assert.equal(policy.route({ capability: 'general', complexity: 'low', promptChars: 10 })?.providerId, 'z-provider');
+});
+
 test('returns null rather than fabricating a route when no provider matches', () => {
   const policy = new AiRoutingPolicy();
   policy.register({ id: 'text-only', capabilities: ['general'], maxPromptChars: 1_000, enabled: true, priority: 1 });
