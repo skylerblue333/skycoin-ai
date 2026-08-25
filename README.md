@@ -1,40 +1,64 @@
-# skycoin-ai
+# Sky AI Routing Policy
 
-AI and automation component for the SKYCOIN4444 ecosystem.
+Sky AI Routing Policy is a small provider-neutral TypeScript library for selecting a configured AI provider profile by declared capability, prompt-size limit, enabled state, and deterministic priority rank.
 
-## Current repository evidence
+## Status
 
-- Public TypeScript repository on `main`.
-- 27 tracked files were observed in the current audit snapshot.
-- `package.json`, Docker configuration, Docker Compose configuration, and GitHub Actions CI configuration are present.
-- No test-related file was identified by the current filename-based audit.
+**Engineering beta.** This package is a routing-policy primitive only. It does not call OpenAI, Anthropic, Google, or any other model provider, and it does not claim that any specific model exists or is integrated.
 
-## Ecosystem role
+The historical repository contained hard-coded model names, a nonexistent LLM import, simulated “military grade” AI/security responses, compliance labels, and fake `Tests passing`/`Build completed` scripts. Those unsupported surfaces are removed from the active product branch.
 
-**HopeAI → AI / Automation / Model Integration**
+## Supported behavior
 
-This repository is a candidate source for AI orchestration, automation, and model-integration capabilities. Its useful implementation should be compared with the other HopeAI/AI repositories before anything is duplicated in the canonical platform.
+- register up to 100 provider profiles;
+- declare provider capabilities such as `reasoning`, `vision`, `code`, `fast`, and `general`;
+- bound provider IDs and prompt lengths;
+- disable providers without deleting their configuration;
+- rank providers deterministically with lower numeric priority preferred;
+- reject routes that exceed a provider prompt limit;
+- return `null` when no configured provider satisfies a request rather than fabricating a fallback;
+- expose defensive copies of provider profiles.
 
-## Truthful status
+## Example
 
-- Source/configuration: **present**
-- Canonical HopeAI integration: **pending implementation comparison**
-- Automated tests: **not established by the current repository evidence**
-- Production deployment: **not verified**
-- Live AI/model integrations: **not claimed**
+```ts
+import { AiRoutingPolicy } from './src';
 
-The current `package.json` describes the module as production-grade, but its `build` script suppresses TypeScript failure and its `test` and `lint` scripts only print success messages. Those scripts are not treated as evidence of successful validation. fileciteturn145file0
+const policy = new AiRoutingPolicy();
+policy.register({
+  id: 'reasoning-primary',
+  capabilities: ['reasoning', 'general'],
+  maxPromptChars: 100_000,
+  enabled: true,
+  priority: 10,
+});
 
-## Consolidation approach
+const decision = policy.route({
+  capability: 'reasoning',
+  complexity: 'high',
+  promptChars: 12_000,
+});
+```
 
-Preserve the existing AI source, configuration, documentation, and history. Compare this implementation against HopeAI and other AI repositories in the SKYCOIN4444 portfolio. Promote the strongest verified behavior into the canonical HopeAI boundary rather than maintaining duplicate AI services.
+The returned `providerId` is a logical configuration identifier. A separate provider adapter is responsible for credentials, network requests, model identifiers, retries, streaming, rate limits, billing, and response validation.
 
-If a genuine capability is missing, evaluate mature public open-source AI frameworks or infrastructure before implementing it from scratch. Check license compatibility, preserve attribution, and isolate external dependencies behind stable adapters.
+## Verify
 
-## Production requirements
+```bash
+npm install
+npm run build
+npm test
+npm audit --omit=dev --audit-level=high
+```
 
-Before production promotion, establish real tests, strict TypeScript/build validation, model/provider configuration, authentication and authorization boundaries, secret management, input/output safety controls, observability, cost/rate controls, reproducible CI, and an end-to-end deployment test.
+## Security and operational boundaries
+
+This library accepts metadata describing provider capabilities; it does not handle API keys or secrets. It performs no network I/O and provides no prompt-injection defense, content moderation, threat detection, model-output validation, cost accounting, telemetry, persistence, authentication, tenant isolation, high availability, or production deployment.
+
+## SKYCOIN4444 integration
+
+A future SKYCOIN4444 AI gateway can consume this policy to choose among separately configured provider adapters without coupling business logic to vendor-specific model names. Keeping routing policy separate from provider execution makes availability and security claims explicit and testable.
 
 ## License
 
-MIT, subject to the checked-in license and applicable third-party dependency licenses.
+See `LICENSE`.
