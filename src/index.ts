@@ -1,4 +1,4 @@
-export type Capability = 'fast' | 'reasoning' | 'vision' | 'code' | 'general';
+export type Capability = 'fast' | 'reasoning' | 'vision' | 'speech' | 'code' | 'general';
 export type Complexity = 'low' | 'medium' | 'high';
 
 export interface RouteRequest {
@@ -99,3 +99,4 @@ export class AiRoutingPolicy {
 }
 
 export const LIMITS = { MAX_PROVIDERS, MAX_PROVIDER_ID, MAX_PROMPT_CHARS } as const;
+export * from './voice.js';
