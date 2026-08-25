@@ -27,6 +27,11 @@ const MAX_PROVIDERS = 100;
 const MAX_PROVIDER_ID = 128;
 const MAX_PROMPT_CHARS = 1_000_000;
 
+function compareProviderIds(left: string, right: string): number {
+  if (left === right) return 0;
+  return left < right ? -1 : 1;
+}
+
 function validateProvider(profile: ProviderProfile): ProviderProfile {
   const id = profile.id.trim();
   if (!id || id.length > MAX_PROVIDER_ID) throw new TypeError('provider id must be 1-128 characters');
@@ -70,7 +75,7 @@ export class AiRoutingPolicy {
 
   list(): ProviderProfile[] {
     return [...this.providers.values()]
-      .sort((a, b) => a.priority - b.priority || a.id.localeCompare(b.id))
+      .sort((a, b) => a.priority - b.priority || compareProviderIds(a.id, b.id))
       .map((profile) => ({ ...profile, capabilities: [...profile.capabilities] }));
   }
 
