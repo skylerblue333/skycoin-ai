@@ -14,6 +14,14 @@ test('routes by deterministic priority fallback', () => {
   });
 });
 
+test('breaks equal-priority ties by locale-independent code-unit id order', () => {
+  const tied = [
+    { id: 'z', provider: 'ProviderZ', capabilities: ['chat'] as const, enabled: true, priority: 10 },
+    { id: 'A', provider: 'ProviderA', capabilities: ['chat'] as const, enabled: true, priority: 10 },
+  ];
+  assert.equal(routeModelRequest(tied, { capability: 'chat' }).targetId, 'A');
+});
+
 test('honors an eligible preferred provider', () => {
   assert.deepEqual(routeModelRequest(targets, { capability: 'chat', preferredProvider: ' PROVIDERB ' }), {
     targetId: 'b', provider: 'providerb', capability: 'chat', reason: 'preferred_provider',

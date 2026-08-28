@@ -99,4 +99,5 @@ export class AiRoutingPolicy {
 }
 
 export const LIMITS = { MAX_PROVIDERS, MAX_PROVIDER_ID, MAX_PROMPT_CHARS } as const;
+export * from './modelGateway.js';
 export * from './voice.js';
