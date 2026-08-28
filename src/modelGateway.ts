@@ -26,12 +26,17 @@ function normalized(value: string): string {
   return v;
 }
 
+function compareTargetIds(left: string, right: string): number {
+  if (left === right) return 0;
+  return left < right ? -1 : 1;
+}
+
 export function routeModelRequest(targets: readonly ModelTarget[], request: ModelRequest): ModelRouteDecision {
   const capability = request.capability;
   const eligible = targets
     .filter((target) => target.enabled && target.capabilities.includes(capability))
     .map((target) => ({ ...target, provider: normalized(target.provider) }))
-    .sort((a, b) => a.priority - b.priority || a.id.localeCompare(b.id));
+    .sort((a, b) => a.priority - b.priority || compareTargetIds(a.id, b.id));
 
   if (eligible.length === 0) throw new Error('no_eligible_model_target');
 
